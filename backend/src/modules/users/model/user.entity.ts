@@ -46,13 +46,13 @@ export class UserEntity extends CommonEntity {
 
   @ManyToMany(() => RoleEntity, (role) => role.users)
   @JoinTable({
-    name: 'users-roles',
+    name: 'user_roles',
     joinColumn: {
       name: 'user_id',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'rold_id',
+      name: 'role_id',
       referencedColumnName: 'id',
     },
   })
