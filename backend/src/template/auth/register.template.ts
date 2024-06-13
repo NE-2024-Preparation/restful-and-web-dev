@@ -1,10 +1,16 @@
-export const registerTemplate = ({ firstName }: { firstName: string }) => `
+export const registerTemplate = ({
+  firstName,
+  companyName,
+}: {
+  firstName: string;
+  companyName: string;
+}) => `
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to [Company]</title>
+    <title>Welcome to ${companyName}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,17 +48,17 @@ export const registerTemplate = ({ firstName }: { firstName: string }) => `
 <body>
     <div class="container">
         <div class="header">
-            <h1>Welcome to NestJS!</h1>
+            <h1>Welcome to ${companyName}!</h1>
         </div>
         <div class="content">
             <p>Hello ${firstName},</p>
-            <p>Thank you for signing up with NestJS. We're excited to have you on board.</p>
+            <p>Thank you for signing up with ${companyName}. We're excited to have you on board.</p>
             <p>To get started, please verify your email address by clicking the link below:</p>
             <p>If you have any questions, feel free to reach out to our support team.</p>
-            <p>Best regards,<br>The NestJS Team</p>
+            <p>Best regards,<br>The ${companyName} Team</p>
         </div>
         <div class="footer">
-            <p>&copy; 2024 NestJS. All rights reserved.</p>
+            <p>&copy; 2024 ${companyName}. All rights reserved.</p>
         </div>
     </div>
 </body>

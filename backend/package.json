@@ -1,7 +1,7 @@
 {
   "name": "nestjs-services",
   "version": "1.0.0",
-  "description": "NaviGO Backend Services.",
+  "description": "Backend Services.",
   "author": {
     "name": "Patrick NDAYAMBAJE",
     "email": "patrickndayambaje4@gmail.com"

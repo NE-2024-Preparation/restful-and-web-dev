@@ -1,8 +1,9 @@
 export const loginTemplate = ({
   firstName,
+  companyName,
 }: {
   firstName: string;
-  email: string;
+  companyName: string;
 }) => `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,7 +56,7 @@ export const loginTemplate = ({
             <p>Best regards</p>
         </div>
         <div class="footer">
-            <p>&copy; 2024 NestJS. All rights reserved.</p>
+            <p>&copy; 2024 ${companyName}. All rights reserved.</p>
         </div>
     </div>
 </body>

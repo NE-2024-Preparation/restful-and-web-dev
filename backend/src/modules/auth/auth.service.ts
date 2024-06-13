@@ -23,7 +23,7 @@ import { ResponseDto } from '~/common/dtos';
 import { loginTemplate } from '~/template/auth';
 import { registerTemplate } from '~/template/auth/register.template';
 import { ConfigService } from '@nestjs/config';
-import { AllConfigType } from '~/config';
+import { AllConfigType, IAppConfig } from '~/config';
 import { RefreshTokenRequestDto } from '../tokens/dto/refresh-token-request.dto';
 import { TokenResponseDto } from '../tokens/dto/token-response.dto';
 
@@ -73,9 +73,9 @@ export class AuthService {
     await this.mailService.sendEMail({
       body: loginTemplate({
         firstName: user.firstName,
-        email: user.email,
+        companyName: this.configService.get<IAppConfig>('app').name,
       }),
-      subject: 'NaviGO Login Attempt',
+      subject: `${this.configService.get<IAppConfig>('app').name} Login Notification`,
       to: user.email,
     });
 
@@ -111,8 +111,11 @@ export class AuthService {
     });
 
     await this.mailService.sendEMail({
-      body: registerTemplate({ firstName: user.firstName }),
-      subject: 'Welcome to NaviGO: Your Account Has Been Created!',
+      body: registerTemplate({
+        firstName: user.firstName,
+        companyName: this.configService.get<IAppConfig>('app').name,
+      }),
+      subject: `Welcome to ${this.configService.get<IAppConfig>('app').name}: Account Created!`,
       to: user.email,
     });
 
