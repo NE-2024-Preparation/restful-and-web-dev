@@ -31,7 +31,7 @@ export const Modal = (props: DialogProps) => {
             } duration-200 ease-in-out`}
         >
             <FontAwesomeIcon
-                className="border-secondary-500 text-secondary-500 absolute top-5 right-10 z-50 cursor-pointer border p-3 text-xl"
+                className="absolute top-5 right-10 z-50 cursor-pointer border border-gray-500 p-3 text-xl text-gray-500"
                 icon={faClose}
                 onClick={onClose}
             />

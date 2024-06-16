@@ -36,23 +36,16 @@ export const DataTable = <Entry extends {}>(props: DataTableProps<Entry>) => {
     const queryParams = new URLSearchParams(location.search);
 
     const [paginate, setPaginate] = useState({
-        pageNumber: queryParams.get('pageNumber')
-            ? Number(queryParams.get('pageNumber'))
-            : 0,
-        pageSize: queryParams.get('pageSize')
-            ? Number(queryParams.get('pageSize'))
-            : 10,
+        page: queryParams.get('page') ? Number(queryParams.get('page')) : 1,
+        limit: queryParams.get('limit') ? Number(queryParams.get('limit')) : 10,
     });
 
-    const updateQueryParams = (params: {
-        pageNumber: number;
-        pageSize: number;
-    }) => {
+    const updateQueryParams = (params: { page: number; limit: number }) => {
         const searchParams = new URLSearchParams(location.search);
-        searchParams.set('pageNumber', params.pageNumber.toString());
-        searchParams.set('pageSize', params.pageSize.toString());
+        searchParams.set('page', params.page.toString());
+        searchParams.set('limit', params.limit.toString());
         let keyword = searchParams.get('search');
-        if(!keyword) searchParams.delete('search');
+        if (!keyword) searchParams.delete('search');
         const newSearch = searchParams.toString();
         navigate(`${location.pathname}?${newSearch}`);
     };
@@ -61,7 +54,7 @@ export const DataTable = <Entry extends {}>(props: DataTableProps<Entry>) => {
         setPaginate((prev: any) => {
             return {
                 ...prev,
-                pageNumber: 1,
+                page: 1,
             };
         });
     }
@@ -70,7 +63,7 @@ export const DataTable = <Entry extends {}>(props: DataTableProps<Entry>) => {
         setPaginate((prev: any) => {
             return {
                 ...prev,
-                pageNumber: lastPage,
+                page: lastPage,
             };
         });
     }
@@ -79,53 +72,51 @@ export const DataTable = <Entry extends {}>(props: DataTableProps<Entry>) => {
         setPaginate((prev: any) => {
             return {
                 ...prev,
-                pageSize: Number(e.target.value),
+                limit: Number(e.target.value),
             };
         });
     }
 
     function onClickNextPage() {
-        if (paginate.pageSize + paginate.pageNumber >= total)
-            return onClickLastPage();
+        if (paginate.limit + paginate.page >= total) return onClickLastPage();
         setPaginate((prev: any) => {
             return {
                 ...prev,
-                pageNumber: nextPage,
+                page: nextPage,
             };
         });
     }
 
     function onClickPreviousPage() {
-        if (paginate.pageNumber - paginate.pageSize <= 0)
-            return onClickFirstPage();
+        if (paginate.page - paginate.limit <= 0) return onClickFirstPage();
         setPaginate((prev: any) => {
             return {
                 ...prev,
-                pageNumber: previousPage,
+                page: previousPage,
             };
         });
     }
 
     useEffect(() => {
         updateQueryParams({
-            pageNumber: paginate.pageNumber,
-            pageSize: paginate.pageSize,
+            page: paginate.page,
+            limit: paginate.limit,
         });
     }, [paginate]);
 
     return (
         <div>
             <div className="w-full overflow-x-auto">
-                <table className="divide-gray-300 w-full divide-y overflow-hidden whitespace-nowrap">
+                <table className="w-full divide-y divide-gray-300 overflow-hidden whitespace-nowrap">
                     <thead>
                         <tr className="bg-gray-500">
-                            <th className="py-3 px-2 text-center text-sm font-medium text-white">
+                            <th className="py-3 px-2 text-center text-xs font-medium text-white">
                                 #
                             </th>
                             {columns.map((column, key) => (
                                 <th
                                     key={key}
-                                    className="py-3 px-2 text-left text-sm font-medium text-white"
+                                    className="py-3 px-2 text-left text-xs font-medium text-white"
                                 >
                                     {column.title}
                                 </th>
@@ -133,11 +124,11 @@ export const DataTable = <Entry extends {}>(props: DataTableProps<Entry>) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="border-2 border-dark-light hover:bg-dark-light">
+                        <tr className="border-dark-light hover:bg-dark-light border-2">
                             {isLoading && (
                                 <td
                                     colSpan={columns.length + 1}
-                                    className="py-3 px-2 text-center text-sm font-normal text-light"
+                                    className="text-light py-3 px-2 text-center text-xs font-normal"
                                 >
                                     One moment please ...
                                 </td>
@@ -146,7 +137,7 @@ export const DataTable = <Entry extends {}>(props: DataTableProps<Entry>) => {
                             {!isLoading && data.length === 0 && (
                                 <td
                                     colSpan={columns.length + 1}
-                                    className="py-3 px-2 text-center text-sm font-normal text-light"
+                                    className="text-light py-3 px-2 text-center text-xs font-normal"
                                 >
                                     No entries found
                                 </td>
@@ -157,11 +148,11 @@ export const DataTable = <Entry extends {}>(props: DataTableProps<Entry>) => {
                             data.map((element, elementKey) => (
                                 <tr
                                     key={elementKey}
-                                    className="border-2 border-dark-light hover:bg-dark-light"
+                                    className="border-dark-light hover:bg-dark-light border-2"
                                 >
-                                    <td className="py-3 px-2 text-center text-sm font-normal text-light">
-                                        {paginate.pageSize * currentPage -
-                                            paginate.pageSize +
+                                    <td className="text-light py-3 px-2 text-center text-xs font-normal">
+                                        {paginate.limit * currentPage -
+                                            paginate.limit +
                                             elementKey +
                                             1}
                                     </td>
@@ -169,7 +160,7 @@ export const DataTable = <Entry extends {}>(props: DataTableProps<Entry>) => {
                                     {columns.map((column, columnKey) => (
                                         <td
                                             key={columnKey}
-                                            className="py-3 px-2 text-left text-sm font-normal text-light"
+                                            className="text-light py-3 px-2 text-left text-xs font-normal"
                                         >
                                             {column.cell(element, elementKey)}
                                         </td>
@@ -181,18 +172,16 @@ export const DataTable = <Entry extends {}>(props: DataTableProps<Entry>) => {
             </div>
 
             {!isLoading && data.length > 0 && (
-                <div className="text-gray-600 flex w-full flex-wrap items-center justify-between gap-2 py-4 text-sm font-medium">
+                <div className="flex w-full flex-wrap items-center justify-between gap-2 py-4 text-xs font-medium text-gray-600">
                     <div className="flex items-center justify-between gap-2">
                         <span className="min-w-20 cursor-pointer rounded-md bg-slate-200 p-2 px-4  duration-100 disabled:cursor-default">
-                            {paginate.pageSize * currentPage -
-                                paginate.pageSize +
-                                1}{' '}
+                            {paginate.limit * currentPage - paginate.limit + 1}{' '}
                             - {data.length * currentPage} of {total}
                         </span>
                         <span className="flex items-center justify-center gap-2">
                             <label className="text-white">Rows/Page</label>
                             <select
-                                className="placeholder-gray-500 block w-16 appearance-none rounded-md border-0 bg-slate-100 px-3 text-base font-medium capitalize text-dark focus:outline-none focus:ring-0 disabled:bg-slate-500 disabled:text-slate-100"
+                                className="text-dark block w-16 appearance-none rounded-md border-0 bg-slate-100 px-3 py-2 text-xs font-medium capitalize placeholder-gray-500 focus:outline-none focus:ring-0 disabled:bg-slate-500 disabled:text-slate-100"
                                 onChange={onpageSizeChange}
                                 defaultValue={10}
                                 disabled={total <= 5}
@@ -207,7 +196,7 @@ export const DataTable = <Entry extends {}>(props: DataTableProps<Entry>) => {
                         </span>
                     </div>
 
-                    <div className="text-gray-600 flex flex-wrap justify-end gap-2 text-sm font-medium">
+                    <div className="flex flex-wrap justify-end gap-2 text-xs font-medium text-gray-600">
                         <button
                             className="cursor-pointer rounded-md bg-slate-200 p-2 px-4 duration-100 hover:bg-red-500 hover:text-white disabled:cursor-default disabled:bg-slate-500 disabled:text-slate-100"
                             disabled={currentPage === 1}

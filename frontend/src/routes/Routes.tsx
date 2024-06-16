@@ -1,13 +1,12 @@
-import { useRoutes } from 'react-router-dom';
+import { Navigate, useRoutes } from 'react-router-dom';
 import AppLayout from '~/components/layouts/app/AppLayout';
 import AuthPageLayout from '~/components/layouts/auth/AuthPageLayout';
 import { AuthRouteProtector } from '~/core/protector/auth/AuthProtector';
 import NotFoundPage from '~/pages/notfound/NotFoundPage';
 import { AdminRoutes } from './dashboard/AdminRoutes';
 import { AuthRoutes } from './auth/AuthRoutes';
-import HomePage from '~/pages/home/HomePage';
-import DashboardPageLayout from '~/components/layouts/dashboard/DashboardPageLayout';
 import { DashboardProtector } from '~/core/protector/dashboard/DashboardProtector';
+import { DashboardPageLayout } from '~/components/layouts/dashboard/DashboardPageLayout';
 
 export const Routes = () => {
     return useRoutes([
@@ -17,7 +16,7 @@ export const Routes = () => {
             children: [
                 {
                     index: true,
-                    element: <HomePage />,
+                    element: <Navigate to={'/auth/login'} />,
                 },
                 {
                     path: 'auth',

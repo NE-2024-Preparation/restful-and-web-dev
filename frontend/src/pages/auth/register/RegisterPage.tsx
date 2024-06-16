@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { z } from 'zod';
 import { register_user } from '~/api/auth';
-import { AuthImages } from '~/assets/images/background/auth';
 import { Button, Form, InputField } from '~/components/elements';
 import { adduserRedux } from '~/core/redux/slices/userSlice';
 import { AuthRegisterRequestPayload } from '~/core/types/auth';
 import { addTokensRedux } from '~/core/redux/slices/tokensSlice';
+import { IMAGES } from '~/assets/images';
 
 const schema = z.object({
     firstName: z.string().min(1, 'First Name is required'),
@@ -47,7 +47,7 @@ const RegisterPage: React.FC = () => {
             </Helmet>
             <div className="flex h-screen w-screen object-cover">
                 <img
-                    src={AuthImages.CreateAccoutBackgroundImage}
+                    src={IMAGES.CreateAccoutBackgroundImage}
                     alt="Page Desc Image"
                     className="hidden xl:block xl:w-3/5"
                 />
@@ -56,7 +56,7 @@ const RegisterPage: React.FC = () => {
                         <div className="-mx-4 flex flex-wrap">
                             <div className="w-full px-4 ">
                                 <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white py-20 px-10 sm:px-12 md:px-[60px]">
-                                    <div className="flex flex-col pb-3 text-2xl font-semibold">
+                                    <div className="flex flex-col pb-3 text-xl font-semibold">
                                         <span>Hey,</span>
                                         <span>Register Here</span>
                                     </div>
@@ -79,7 +79,7 @@ const RegisterPage: React.FC = () => {
                                                         registration={register(
                                                             'firstName'
                                                         )}
-                                                        className="h-12"
+                                                        className="h-10 text-xs"
                                                         isLoading={isLoading}
                                                         type="text"
                                                     />
@@ -93,7 +93,7 @@ const RegisterPage: React.FC = () => {
                                                         registration={register(
                                                             'lastName'
                                                         )}
-                                                        className="h-12"
+                                                        className="h-10 text-xs"
                                                         isLoading={isLoading}
                                                         type="text"
                                                     />
@@ -107,7 +107,7 @@ const RegisterPage: React.FC = () => {
                                                         registration={register(
                                                             'email'
                                                         )}
-                                                        className="h-12"
+                                                        className="h-10 text-xs"
                                                         isLoading={isLoading}
                                                         type="text"
                                                     />
@@ -121,7 +121,7 @@ const RegisterPage: React.FC = () => {
                                                         registration={register(
                                                             'username'
                                                         )}
-                                                        className="h-12"
+                                                        className="h-10 text-xs"
                                                         isLoading={isLoading}
                                                         type="text"
                                                     />
@@ -135,13 +135,13 @@ const RegisterPage: React.FC = () => {
                                                         registration={register(
                                                             'password'
                                                         )}
-                                                        className="h-12"
+                                                        className="h-10 text-xs"
                                                         isLoading={isLoading}
                                                         type="password"
                                                     />
                                                 </div>
 
-                                                <p className="md:text-md mt-3 text-sm">
+                                                <p className="md:text-md mt-3 text-xs">
                                                     Already have an account?
                                                     <Link
                                                         to={'/auth/login'}
@@ -160,7 +160,7 @@ const RegisterPage: React.FC = () => {
                                                 <Button
                                                     type="submit"
                                                     variant="bg-primary-500"
-                                                    className="text-md mt-4 w-full font-semibold"
+                                                    className="mt-4 w-full text-xs font-semibold"
                                                     isLoading={isLoading}
                                                 >
                                                     Register

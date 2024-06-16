@@ -1,20 +1,15 @@
-import {
-    createContext,
-    FC,
-    ReactNode,
-    useContext,
-    useMemo,
-    useState,
-} from 'react';
+import { createContext, FC, ReactNode, useContext, useState } from 'react';
 import { ExportContextProvider } from '../export/ExportContextProvider';
-
-export const DashboardContext = createContext<any>({});
 
 export type DashboardContextType = {
     isSidebarOpen: boolean;
     toggleSidebar: () => void;
-    closeSidebar: () => void;
 };
+
+export const DashboardContext = createContext<DashboardContextType>({
+    isSidebarOpen: false,
+    toggleSidebar: () => {},
+});
 
 export const DashboardContextProvider: FC<{ children: ReactNode }> = ({
     children,
@@ -25,21 +20,13 @@ export const DashboardContextProvider: FC<{ children: ReactNode }> = ({
         setIsSidebarOpen(!isSidebarOpen);
     };
 
-    const closeSidebar = () => {
-        setIsSidebarOpen(false);
-    };
-
-    const value = useMemo(
-        () => ({
-            isSidebarOpen,
-            toggleSidebar,
-            closeSidebar,
-        }),
-        [isSidebarOpen]
-    );
-
     return (
-        <DashboardContext.Provider value={value}>
+        <DashboardContext.Provider
+            value={{
+                isSidebarOpen,
+                toggleSidebar,
+            }}
+        >
             <ExportContextProvider>{children}</ExportContextProvider>
         </DashboardContext.Provider>
     );

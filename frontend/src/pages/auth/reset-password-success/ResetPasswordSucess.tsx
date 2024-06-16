@@ -1,8 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
-import { ICONS } from '~/assets/icons';
-import { AuthImages } from '~/assets/images/background/auth';
+import { IMAGES } from '~/assets/images';
 import { Button } from '~/components/elements';
 
 const ResetPasswordSuccessPage: React.FC = () => {
@@ -18,7 +17,7 @@ const ResetPasswordSuccessPage: React.FC = () => {
             </Helmet>
             <div className="flex h-screen w-screen object-cover">
                 <img
-                    src={AuthImages.CreateAccoutBackgroundImage}
+                    src={IMAGES.CreateAccoutBackgroundImage}
                     alt="Page Desc Image"
                     className="hidden xl:block xl:w-3/5"
                 />
@@ -27,21 +26,21 @@ const ResetPasswordSuccessPage: React.FC = () => {
                         <div className="-mx-4 flex flex-wrap">
                             <div className="w-full px-4 ">
                                 <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white py-20 px-10 sm:px-12 md:px-[60px]">
-                                    <div className="flex flex-col pb-3 text-2xl font-semibold">
+                                    <div className="flex flex-col pb-3 text-xl font-semibold">
                                         <span>Hey,</span>
                                         <span>Password Reset Successfully</span>
                                     </div>
                                     <form onSubmit={handleSubmit}>
                                         <div className="flex items-center justify-center py-2">
                                             <img
-                                                src={ICONS.Success}
+                                                src={IMAGES.Success}
                                                 className="h-40"
                                             />
                                         </div>
                                         <Button
                                             type="submit"
                                             variant="bg-primary-500"
-                                            className="text-md mt-4 w-full font-semibold"
+                                            className="mt-4 w-full text-xs font-semibold"
                                         >
                                             LOGIN AGAIN
                                         </Button>

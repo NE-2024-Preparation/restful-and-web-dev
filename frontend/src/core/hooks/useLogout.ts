@@ -8,7 +8,6 @@ export const useLogout = () => {
     const logout = () => {
         dispatch(removeUserRedux());
         dispatch(removeTokensRedux());
-        window.location.reload();
     };
 
     return { logout };

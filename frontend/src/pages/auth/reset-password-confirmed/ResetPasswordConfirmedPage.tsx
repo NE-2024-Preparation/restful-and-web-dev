@@ -1,8 +1,9 @@
+/* eslint-disable quotes */
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import { AuthImages } from '~/assets/images/background/auth';
+import { IMAGES } from '~/assets/images';
 import { Button, Form, InputField } from '~/components/elements';
 
 const schema = z
@@ -11,7 +12,7 @@ const schema = z
         confirm_password: z.string().min(1, 'Confirm Password is required'),
     })
     .refine(data => data.password === data.confirm_password, {
-        message: 'Passwords don\'t match',
+        message: "Passwords don't match",
         path: ['confirm_password'],
     });
 
@@ -46,7 +47,7 @@ const ResetPasswordConfirmedPage: React.FC = () => {
             </Helmet>
             <div className="flex h-screen w-screen object-cover">
                 <img
-                    src={AuthImages.CreateAccoutBackgroundImage}
+                    src={IMAGES.CreateAccoutBackgroundImage}
                     alt="Page Desc Image"
                     className="hidden xl:block xl:w-3/5"
                 />
@@ -55,7 +56,7 @@ const ResetPasswordConfirmedPage: React.FC = () => {
                         <div className="-mx-4 flex flex-wrap">
                             <div className="w-full px-4 ">
                                 <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white py-20 px-10 sm:px-12 md:px-[60px]">
-                                    <div className="flex flex-col pb-3 text-2xl font-semibold">
+                                    <div className="flex flex-col pb-3 text-xl font-semibold">
                                         <span>Hey,</span>
                                         <span>Provide your new password</span>
                                     </div>
@@ -75,7 +76,7 @@ const ResetPasswordConfirmedPage: React.FC = () => {
                                                         registration={register(
                                                             'password'
                                                         )}
-                                                        className="h-12"
+                                                        className="h-10 text-xs"
                                                         type="password"
                                                         isLoading={isLoading}
                                                     />
@@ -88,14 +89,14 @@ const ResetPasswordConfirmedPage: React.FC = () => {
                                                         registration={register(
                                                             'confirm_password'
                                                         )}
-                                                        className="h-12"
+                                                        className="h-10 text-xs"
                                                         type="password"
                                                         isLoading={isLoading}
                                                     />
                                                 </div>
 
                                                 {error && (
-                                                    <div className="md:text-md flex flex-col gap-4 pt-2 text-xs">
+                                                    <div className="flex flex-col gap-4 pt-2 md:text-xs">
                                                         <p className="text-red-600">
                                                             {error}
                                                         </p>
@@ -104,7 +105,7 @@ const ResetPasswordConfirmedPage: React.FC = () => {
                                                 <Button
                                                     type="submit"
                                                     variant="bg-primary-500"
-                                                    className="text-md mt-4 w-full font-semibold"
+                                                    className="mt-4 w-full text-xs font-semibold"
                                                     isLoading={isLoading}
                                                 >
                                                     Reset

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import { AuthImages } from '~/assets/images/background/auth';
+import { IMAGES } from '~/assets/images';
 import { Button, Form, InputField } from '~/components/elements';
 
 const schema = z.object({
@@ -39,7 +39,7 @@ const ResetPasswordPage: React.FC = () => {
             </Helmet>
             <div className="flex h-screen w-screen object-cover">
                 <img
-                    src={AuthImages.CreateAccoutBackgroundImage}
+                    src={IMAGES.CreateAccoutBackgroundImage}
                     alt="Page Desc Image"
                     className="hidden xl:block xl:w-3/5"
                 />
@@ -48,7 +48,7 @@ const ResetPasswordPage: React.FC = () => {
                         <div className="-mx-4 flex flex-wrap">
                             <div className="w-full px-4 ">
                                 <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white py-20 px-10 sm:px-12 md:px-[60px]">
-                                    <div className="flex flex-col pb-3 text-2xl font-semibold">
+                                    <div className="flex flex-col pb-3 text-xl font-semibold">
                                         <span>Hey,</span>
                                         <span>Reset your password here</span>
                                     </div>
@@ -68,21 +68,21 @@ const ResetPasswordPage: React.FC = () => {
                                                         registration={register(
                                                             'email'
                                                         )}
-                                                        className="h-12"
+                                                        className="h-10 text-xs"
                                                         isLoading={isLoading}
                                                         type="text"
                                                     />
                                                 </div>
 
-                                                <div className="pt-3 text-sm">
+                                                <div className="pt-3 text-xs">
                                                     <p>
-                                                        Enter your email so we
-                                                        can send you
-                                                        verification code
+                                                        Enter your email, we'll
+                                                        send you a verification
+                                                        code
                                                     </p>
                                                 </div>
 
-                                                <p className="md:text-md mt-3 text-sm">
+                                                <p className="md:text-md mt-3 text-xs">
                                                     Don't have an account?
                                                     <Link
                                                         to={'/auth/login'}
@@ -102,7 +102,7 @@ const ResetPasswordPage: React.FC = () => {
                                                 <Button
                                                     type="submit"
                                                     variant="bg-primary-500"
-                                                    className="text-md mt-4 w-full font-semibold"
+                                                    className="mt-4 w-full text-xs font-semibold"
                                                     isLoading={isLoading}
                                                 >
                                                     Submit

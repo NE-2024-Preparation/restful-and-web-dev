@@ -4,11 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { z } from 'zod';
 import { login_user } from '~/api/auth';
-import { AuthImages } from '~/assets/images/background/auth';
 import { Button, Form, InputField } from '~/components/elements';
 import { adduserRedux } from '~/core/redux/slices/userSlice';
 import { AuthLoginRequestPayload } from '~/core/types/auth';
 import { addTokensRedux } from '~/core/redux/slices/tokensSlice';
+import { IMAGES } from '~/assets/images';
 
 const schema = z.object({
     username: z.string().min(1, 'Email or Username is required'),
@@ -45,7 +45,7 @@ const LoginPage: React.FC = () => {
             </Helmet>
             <div className="flex h-screen w-screen object-cover">
                 <img
-                    src={AuthImages.CreateAccoutBackgroundImage}
+                    src={IMAGES.CreateAccoutBackgroundImage}
                     alt="Page Desc Image"
                     className="hidden xl:block xl:w-3/5"
                 />
@@ -54,7 +54,7 @@ const LoginPage: React.FC = () => {
                         <div className="-mx-4 flex flex-wrap">
                             <div className="w-full px-4 ">
                                 <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white py-20 px-10 sm:px-12 md:px-[60px]">
-                                    <div className="flex flex-col pb-3 text-2xl font-semibold">
+                                    <div className="flex flex-col pb-3 text-xl font-semibold">
                                         <span>Hey,</span>
                                         <span>Login Here</span>
                                     </div>
@@ -77,7 +77,7 @@ const LoginPage: React.FC = () => {
                                                         registration={register(
                                                             'username'
                                                         )}
-                                                        className="h-12"
+                                                        className="h-10 text-xs"
                                                         isLoading={isLoading}
                                                         type="text"
                                                     />
@@ -91,25 +91,25 @@ const LoginPage: React.FC = () => {
                                                         registration={register(
                                                             'password'
                                                         )}
-                                                        className="h-12"
+                                                        className="h-10 py-0 text-xs"
                                                         isLoading={isLoading}
                                                         type="password"
                                                     />
                                                 </div>
 
-                                                <p className="md:text-md mt-3 text-sm">
+                                                <p className="md:text-md mt-3 text-xs">
                                                     Forgot your password?
                                                     <Link
                                                         to={
                                                             '/auth/reset-password'
                                                         }
-                                                        className="hover:text-primary md:text-md mx-1  mt-3 inline-block text-sm text-primary-500 underline hover:underline"
+                                                        className="hover:text-primary md:text-md mx-1  mt-3 inline-block text-xs text-primary-500 underline hover:underline"
                                                     >
                                                         Reset
                                                     </Link>
                                                 </p>
 
-                                                <p className="md:text-md mt-3 text-sm">
+                                                <p className="md:text-md mt-3 text-xs">
                                                     Don't have an account?
                                                     <Link
                                                         to={'/auth/register'}
@@ -129,7 +129,7 @@ const LoginPage: React.FC = () => {
                                                 <Button
                                                     type="submit"
                                                     variant="bg-primary-500"
-                                                    className="text-md mt-4 w-full font-semibold"
+                                                    className="mt-4 w-full text-xs font-semibold"
                                                     isLoading={isLoading}
                                                 >
                                                     Login

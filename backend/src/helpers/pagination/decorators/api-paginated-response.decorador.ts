@@ -18,13 +18,19 @@ export const ApiOkPaginatedResponse = <TModel extends Type<any>>(
       enum: ['ASC', 'DESC'],
       required: false,
     }),
-    ApiQuery({ name: 'page', type: 'number', required: false, example: '1' }),
+    ApiQuery({
+      name: 'page',
+      type: 'number',
+      required: false,
+      example: '1',
+      description: 'Default: 1',
+    }),
     ApiQuery({
       name: 'limit',
       type: 'number',
       required: false,
       example: '10',
-      description: 'Maximum 100',
+      description: 'Default: 10 and Maximum 100',
     }),
     ApiExtraModels(PaginationResponseDto, model),
     ApiOkResponse({

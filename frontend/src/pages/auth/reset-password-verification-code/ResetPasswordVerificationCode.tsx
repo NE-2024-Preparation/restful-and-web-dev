@@ -2,18 +2,18 @@
 import React, { FormEvent, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
-import { AuthImages } from '~/assets/images/background/auth';
 import { Button } from '~/components/elements';
 import styled from 'styled-components';
 import ReactInputVerificationCode from 'react-input-verification-code';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { IMAGES } from '~/assets/images';
 
 const StyledReactInputVerificationCode = styled.div`
     display: flex;
     justify-content: center;
-    --ReactInputVerificationCode-itemWidth: 60px;
-    --ReactInputVerificationCode-itemHeight: 55px;
-    --ReactInputVerificationCode-itemSpacing: 10px;
+    --ReactInputVerificationCode-itemWidth: 45px;
+    --ReactInputVerificationCode-itemHeight: 45px;
+    --ReactInputVerificationCode-itemSpacing: 11px;
     .ReactInputVerificationCode__item {
         font-size: 24px;
         font-weight: 500;
@@ -63,7 +63,7 @@ const ResetPasswordVerificationCode: React.FC = () => {
             </Helmet>
             <div className="flex h-screen w-screen object-cover">
                 <img
-                    src={AuthImages.CreateAccoutBackgroundImage}
+                    src={IMAGES.CreateAccoutBackgroundImage}
                     alt="Page Desc Image"
                     className="hidden xl:block xl:w-3/5"
                 />
@@ -72,7 +72,7 @@ const ResetPasswordVerificationCode: React.FC = () => {
                         <div className="-mx-4 flex flex-wrap">
                             <div className="w-full px-4 ">
                                 <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white py-20 px-10 sm:px-12 md:px-[60px]">
-                                    <div className="flex flex-col pb-3 text-2xl font-semibold">
+                                    <div className="flex flex-col pb-3 text-xl font-semibold">
                                         <span>Hey,</span>
                                         <span>
                                             {' '}
@@ -92,7 +92,7 @@ const ResetPasswordVerificationCode: React.FC = () => {
                                             />
                                         </StyledReactInputVerificationCode>
 
-                                        <p className="md:text-md mt-3 text-sm">
+                                        <p className="mt-3 text-xs">
                                             Didn't receive the code?
                                             <span className="hover:text-primary md:text-md mx-1  mt-3 inline-block cursor-pointer text-sm text-primary-500 underline hover:underline">
                                                 Resend
@@ -100,7 +100,7 @@ const ResetPasswordVerificationCode: React.FC = () => {
                                         </p>
 
                                         {error && (
-                                            <div className="md:text-md flex flex-col gap-4 pt-2 text-xs">
+                                            <div className="flex flex-col gap-4 pt-2 text-xs">
                                                 <p className="text-red-600">
                                                     {error}
                                                 </p>
@@ -109,7 +109,7 @@ const ResetPasswordVerificationCode: React.FC = () => {
                                         <Button
                                             type="submit"
                                             variant="bg-primary-500"
-                                            className="text-md mt-4 w-full font-semibold"
+                                            className="mt-4 w-full text-xs font-semibold"
                                             isLoading={isLoading}
                                         >
                                             Submit

@@ -1,6 +1,6 @@
 import { RouteObject } from 'react-router-dom';
-import DashboardPage from '~/pages/dashboard/DashboardPage';
-import { UsersPage } from '~/pages/dashboard/users/UsersPage';
+import { DashboardPage } from '~/pages/dashboard';
+import { UsersPage } from '~/pages/dashboard/users';
 
 export const AdminRoutes: RouteObject[] = [
     {

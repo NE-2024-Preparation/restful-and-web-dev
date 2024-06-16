@@ -13722,6 +13722,11 @@ table@4.0.2:
     slice-ansi "1.0.0"
     string-width "^2.1.1"
 
+tailgrids@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/tailgrids/-/tailgrids-2.2.2.tgz#2572b36b8117e0ac97410830ba4c7e6ee461d036"
+  integrity sha512-NM4M2PuCvtsCJgI7iRQmfiGH3kDkWhXjpkNF3FBZBkHW5eMMl6Lq/WbOZogMI45WJGXfkDlL/aHX6id/yT2oZA==
+
 tailwindcss@^3.0.2:
   version "3.1.4"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.1.4.tgz#64b09059805505902139fa805d97046080bd90b9"

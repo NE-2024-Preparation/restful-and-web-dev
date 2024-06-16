@@ -3,6 +3,9 @@ import { AxiosErrorHandler, CustomError } from '~/core/libs';
 import {
     AuthLoginRequestPayload,
     AuthLoginResponsePayload,
+    AuthLogoutRequestPayload,
+    AuthRefreshTokenRequestPayload,
+    AuthRefreshTokenResponsePayload,
     AuthRegisterRequestPayload,
     AuthRegisterResponsePayload,
 } from '~/core/types/auth';
@@ -34,6 +37,28 @@ export const login_user = async (
 export const get_profile = async (): Promise<ResponseType<ProfileType>> => {
     try {
         const request = await PRIVATE_API.get('/profile');
+        return request.data;
+    } catch (error) {
+        throw new CustomError(AxiosErrorHandler(error));
+    }
+};
+
+export const logout_user = async (
+    payload: AuthLogoutRequestPayload
+): Promise<ResponseType<null>> => {
+    try {
+        const request = await PRIVATE_API.post('/auth/logout', payload);
+        return request.data;
+    } catch (error) {
+        throw new CustomError(AxiosErrorHandler(error));
+    }
+};
+
+export const refresh_token = async (
+    payload: AuthRefreshTokenRequestPayload
+): Promise<ResponseType<AuthRefreshTokenResponsePayload>> => {
+    try {
+        const request = await PRIVATE_API.post('/auth/refresh-token', payload);
         return request.data;
     } catch (error) {
         throw new CustomError(AxiosErrorHandler(error));

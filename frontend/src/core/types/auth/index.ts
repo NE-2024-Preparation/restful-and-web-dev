@@ -23,3 +23,15 @@ export type AuthRegisterResponsePayload = {
     tokens: TokensType;
     user: UserType;
 };
+
+export type AuthLogoutRequestPayload = {
+    refreshToken: string;
+};
+
+export type AuthRefreshTokenRequestPayload = {
+    refreshToken: string;
+};
+
+export type AuthRefreshTokenResponsePayload = {
+    tokens: TokensType;
+};

@@ -29,34 +29,22 @@ export const UsersPage = () => {
         setKeyword(e.target.value);
     };
 
-    const updateQueryParams = () => {
-        const searchParams = new URLSearchParams(location.search);
-        searchParams.set('search', keyword.toString());
-        const newSearch = searchParams.toString();
-        navigate(`${location.pathname}?${newSearch}`);
-    };
-
-    const handleGetUsers = async () => {
-        try {
-            setIsLoading(true);
-            const data = await get_users(query);
-            setUsers(data.payload);
-            setExportData(exportUsers(data.payload.items ?? []));
-        } catch (error) {
-            toast.error('Error getting users');
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
     const columns: TableColumn<UserType>[] = [
         {
-            title: 'Username',
-            cell: row => row.username,
+            title: 'First Name',
+            cell: row => row.firstName,
+        },
+        {
+            title: 'Last Name',
+            cell: row => row.lastName,
         },
         {
             title: 'Email',
             cell: row => row.email,
+        },
+        {
+            title: 'Username',
+            cell: row => row.username,
         },
         {
             title: 'Status',
@@ -74,22 +62,45 @@ export const UsersPage = () => {
         },
     ];
 
+    const handleGetUsers = async () => {
+        try {
+            setIsLoading(true);
+            const data = await get_users(query);
+            setUsers(data.payload);
+            setExportData(exportUsers(data.payload.items || []));
+        } catch (error) {
+            toast.error('Error getting users');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const updateQueryParams = () => {
+        const searchParams = new URLSearchParams(location.search);
+        if (!searchParams.has('page') && !searchParams.has('limit')) return;
+        if (keyword) searchParams.set('search', keyword.toString());
+        else searchParams.delete('search');
+        const newSearch = searchParams.toString();
+        navigate(`${location.pathname}?${newSearch}`);
+    };
+
     useEffect(() => {
-        if (keyword) updateQueryParams();
+        updateQueryParams();
     }, [keyword]);
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
-        if (searchParams.has('pageNumber') && searchParams.has('pageSize'))
+        if (searchParams.has('page') && searchParams.has('limit'))
             handleGetUsers();
     }, [query]);
+
     return (
-        <div>
+        <div className="h-full w-full">
             <div className="float-right flex flex-wrap justify-between gap-4 whitespace-nowrap py-4">
                 <div className="flex gap-3">
                     <input
                         type="text"
-                        className="flex items-center rounded-md border border-slate-300 bg-slate-200 text-base font-medium"
+                        className="w-[10rem] rounded border px-3 py-2 text-xs lg:w-[15rem]"
                         placeholder="Search..."
                         defaultValue={keyword}
                         id="search"

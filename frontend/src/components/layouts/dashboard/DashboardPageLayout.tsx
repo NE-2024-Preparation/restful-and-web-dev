@@ -1,21 +1,21 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import AdminNavBar from '~/components/common/dashboard/navbar/AdminNavBar';
-import AdminSideBar from '~/components/common/dashboard/sidebar/AdminSideBar';
 import { DashboardContextProvider } from '~/core/provider/dashboard/DashboardContextProvider';
+import { SideBar } from '~/components/ui/sidebar/SideBar';
+import { AdminNavBar } from '~/components/ui/navbar/AdminNavBar';
 
-const DashboardPageLayout: React.FC = () => {
+export const DashboardPageLayout: React.FC = () => {
     return (
         <DashboardContextProvider>
-            <div className="flex h-screen w-screen overflow-hidden">
-                <AdminSideBar />
-                <div className="w-full p-1 md:w-4/5">
+            <section className="flex h-screen w-full overflow-x-hidden">
+                <SideBar />
+                <div className="h-full w-full">
                     <AdminNavBar />
-                    <Outlet />
+                    <section className="h-[calc(100%_-_4rem)] bg-white p-3">
+                        <Outlet />
+                    </section>
                 </div>
-            </div>
+            </section>
         </DashboardContextProvider>
     );
 };
-
-export default DashboardPageLayout;
