@@ -5,7 +5,7 @@ import { EyeIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserType } from '~/core/types';
-import { PaginationType } from '~/core/types/pagination';
+import { PaginationType, defaultPaginationData } from '~/core/types/pagination';
 import { useExportContext } from '~/core/provider/export/ExportContextProvider';
 import { exportUsers } from '~/core/helper';
 import { get_users } from '~/api/user';
@@ -20,7 +20,9 @@ export const UsersPage = () => {
 
     const navigate = useNavigate();
 
-    const [users, setUsers] = useState<PaginationType<UserType>>();
+    const [users, setUsers] = useState<PaginationType<UserType>>(
+        defaultPaginationData
+    );
 
     const [keyword, setKeyword] = useState('');
 
@@ -116,13 +118,11 @@ export const UsersPage = () => {
             </div>
             <DataTable
                 columns={columns}
-                data={users?.items ?? []}
+                data={users.items}
                 isLoading={isLoading}
-                total={users?.totalItems ?? 0}
-                lastPage={1}
-                currentPage={users?.currentPage ?? 0}
-                nextPage={0}
-                previousPage={0}
+                currentPage={users.currentPage}
+                totalItems={users.totalItems}
+                totalPages={users.totalPages}
             />
         </div>
     );
