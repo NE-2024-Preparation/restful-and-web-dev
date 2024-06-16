@@ -1,0 +1,25 @@
+import { TokensType } from '../tokens';
+import { UserType } from '../user';
+
+export type AuthLoginRequestPayload = {
+    username: string;
+    password: string;
+};
+
+export type AuthRegisterRequestPayload = {
+    firstName: string;
+    lastName: string;
+    username: string;
+    email: string;
+    password: string;
+};
+
+export type AuthLoginResponsePayload = {
+    tokens: TokensType;
+    user: UserType;
+};
+
+export type AuthRegisterResponsePayload = {
+    tokens: TokensType;
+    user: UserType;
+};

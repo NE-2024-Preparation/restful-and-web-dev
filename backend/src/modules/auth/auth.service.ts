@@ -70,14 +70,14 @@ export class AuthService {
       roles: true,
     });
 
-    await this.mailService.sendEMail({
-      body: loginTemplate({
-        firstName: user.firstName,
-        companyName: this.configService.get<IAppConfig>('app').name,
-      }),
-      subject: `${this.configService.get<IAppConfig>('app').name} Login Notification`,
-      to: user.email,
-    });
+    // await this.mailService.sendEMail({
+    //   body: loginTemplate({
+    //     firstName: user.firstName,
+    //     companyName: this.configService.get<IAppConfig>('app').name,
+    //   }),
+    //   subject: `${this.configService.get<IAppConfig>('app').name} Login Notification`,
+    //   to: user.email,
+    // });
 
     return this.responseService.makeResponse({
       message: 'Logged in successfully',
@@ -110,14 +110,14 @@ export class AuthService {
       roles: true,
     });
 
-    await this.mailService.sendEMail({
-      body: registerTemplate({
-        firstName: user.firstName,
-        companyName: this.configService.get<IAppConfig>('app').name,
-      }),
-      subject: `Welcome to ${this.configService.get<IAppConfig>('app').name}: Account Created!`,
-      to: user.email,
-    });
+    // await this.mailService.sendEMail({
+    //   body: registerTemplate({
+    //     firstName: user.firstName,
+    //     companyName: this.configService.get<IAppConfig>('app').name,
+    //   }),
+    //   subject: `Welcome to ${this.configService.get<IAppConfig>('app').name}: Account Created!`,
+    //   to: user.email,
+    // });
 
     return this.responseService.makeResponse({
       message: 'Logged in successfully',
