@@ -8,6 +8,10 @@ import {
     AuthRefreshTokenResponsePayload,
     AuthRegisterRequestPayload,
     AuthRegisterResponsePayload,
+    AuthRequestResetPasswordRequestPayload,
+    AuthResetPasswordRequestPayload,
+    AuthVerifyResetPasswordRequestPayload,
+    AuthVerifyResetPasswordResponsePayload,
 } from '~/core/types/auth';
 import { ProfileType } from '~/core/types/profile';
 import PRIVATE_API from '../axios';
@@ -59,6 +63,48 @@ export const refresh_token = async (
 ): Promise<ResponseType<AuthRefreshTokenResponsePayload>> => {
     try {
         const request = await PRIVATE_API.post('/auth/refresh-token', payload);
+        return request.data;
+    } catch (error) {
+        throw new CustomError(AxiosErrorHandler(error));
+    }
+};
+
+export const request_reset_password = async (
+    payload: AuthRequestResetPasswordRequestPayload
+) => {
+    try {
+        const request = await PRIVATE_API.post(
+            '/profile/request/reset/password',
+            payload
+        );
+        return request.data;
+    } catch (error) {
+        throw new CustomError(AxiosErrorHandler(error));
+    }
+};
+
+export const verify_reset_password = async (
+    payload: AuthVerifyResetPasswordRequestPayload
+): Promise<ResponseType<AuthVerifyResetPasswordResponsePayload>> => {
+    try {
+        const request = await PRIVATE_API.post(
+            '/profile/verify/reset/password',
+            payload
+        );
+        return request.data;
+    } catch (error) {
+        throw new CustomError(AxiosErrorHandler(error));
+    }
+};
+
+export const reset_password = async (
+    payload: AuthResetPasswordRequestPayload
+) => {
+    try {
+        const request = await PRIVATE_API.post(
+            '/profile/reset/password',
+            payload
+        );
         return request.data;
     } catch (error) {
         throw new CustomError(AxiosErrorHandler(error));

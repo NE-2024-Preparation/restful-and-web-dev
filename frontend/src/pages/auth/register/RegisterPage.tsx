@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -10,13 +11,19 @@ import { AuthRegisterRequestPayload } from '~/core/types/auth';
 import { addTokensRedux } from '~/core/redux/slices/tokensSlice';
 import { IMAGES } from '~/assets/images';
 
-const schema = z.object({
-    firstName: z.string().min(1, 'First Name is required'),
-    lastName: z.string().min(1, 'Last Name is required'),
-    email: z.string().min(1, 'Email or Username is required'),
-    username: z.string().min(1, 'Username is required'),
-    password: z.string().min(1, 'Password is required'),
-});
+const schema = z
+    .object({
+        firstName: z.string().min(1, 'First Name is required'),
+        lastName: z.string().min(1, 'Last Name is required'),
+        email: z.string().min(1, 'Email or Username is required'),
+        username: z.string().min(1, 'Username is required'),
+        password: z.string().min(1, 'Password is required'),
+        confirm_password: z.string().min(1, 'Confirm Password is required'),
+    })
+    .refine(data => data.password === data.confirm_password, {
+        message: "Passwords don't match",
+        path: ['confirm_password'],
+    });
 
 const RegisterPage: React.FC = () => {
     const dispatch = useDispatch();
@@ -25,15 +32,22 @@ const RegisterPage: React.FC = () => {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const handleSubmit = async (payload: AuthRegisterRequestPayload) => {
+    const handleSubmit = async (
+        payload: AuthRegisterRequestPayload & { confirm_password: string }
+    ) => {
         try {
             setError('');
             setIsLoading(true);
-            const data = await register_user(payload);
+            const data = await register_user({
+                email: payload.email,
+                firstName: payload.firstName,
+                lastName: payload.lastName,
+                password: payload.password,
+                username: payload.username,
+            });
             const { tokens, user } = data.payload;
             dispatch(adduserRedux(user));
             dispatch(addTokensRedux(tokens));
-            window.location.reload();
         } catch (error: any) {
             setError(error.response.message);
         } finally {
@@ -61,7 +75,9 @@ const RegisterPage: React.FC = () => {
                                         <span>Register Here</span>
                                     </div>
                                     <Form<
-                                        AuthRegisterRequestPayload,
+                                        AuthRegisterRequestPayload & {
+                                            confirm_password: string;
+                                        },
                                         typeof schema
                                     >
                                         schema={schema}
@@ -134,6 +150,20 @@ const RegisterPage: React.FC = () => {
                                                         }
                                                         registration={register(
                                                             'password'
+                                                        )}
+                                                        className="h-10 text-xs"
+                                                        isLoading={isLoading}
+                                                        type="password"
+                                                    />
+
+                                                    <InputField
+                                                        placeholder="Re-enter Your Password"
+                                                        error={
+                                                            formState.errors
+                                                                .confirm_password
+                                                        }
+                                                        registration={register(
+                                                            'confirm_password'
                                                         )}
                                                         className="h-10 text-xs"
                                                         isLoading={isLoading}

@@ -2,17 +2,18 @@ import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useDashboardContext } from '~/core/provider/dashboard/DashboardContextProvider';
-import { SideBarLinks } from '../sidebar/SideBar';
 import { SVGS } from '~/assets/svgs';
 import UserDropdown from './UserDropDown';
+import { useSideBarLinks } from '~/core/hooks/useSidebarLinks';
 
 export const AdminNavBar = () => {
     const { toggleSidebar } = useDashboardContext();
+    const { sidebarLinks } = useSideBarLinks();
 
     const [currentLink, setCurrentLink] = useState<number>(0);
 
     useEffect(() => {
-        SideBarLinks.map(({ href }, index) => {
+        sidebarLinks.map(({ href }, index) => {
             if (window.location.href.includes(href.toLowerCase()))
                 setCurrentLink(index);
         });
@@ -51,7 +52,7 @@ export const AdminNavBar = () => {
                                         <SVGS.ForwardArrow />
                                     </span>
                                 </li>
-                                {SideBarLinks.map(({ name }, index) => {
+                                {sidebarLinks.map(({ name }, index) => {
                                     return (
                                         <li
                                             className="text-xs font-semibold text-white text-opacity-80"

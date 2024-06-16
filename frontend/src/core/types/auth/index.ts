@@ -35,3 +35,21 @@ export type AuthRefreshTokenRequestPayload = {
 export type AuthRefreshTokenResponsePayload = {
     tokens: TokensType;
 };
+
+export type AuthRequestResetPasswordRequestPayload = {
+    email: string;
+};
+
+export type AuthVerifyResetPasswordRequestPayload = {
+    otp: number;
+    email: string;
+};
+
+export type AuthVerifyResetPasswordResponsePayload = {
+    resetToken: string;
+};
+
+export type AuthResetPasswordRequestPayload = {
+    newPassword: string;
+    resetToken: string;
+};

@@ -9,6 +9,7 @@ import { PaginationType } from '~/core/types/pagination';
 import { useExportContext } from '~/core/provider/export/ExportContextProvider';
 import { exportUsers } from '~/core/helper';
 import { get_users } from '~/api/user';
+import { CustomError } from '~/core/libs';
 
 export const UsersPage = () => {
     const location = useLocation();
@@ -47,6 +48,10 @@ export const UsersPage = () => {
             cell: row => row.username,
         },
         {
+            title: 'Roles',
+            cell: row => row?.roles?.map(role => role.name).join(', '),
+        },
+        {
             title: 'Status',
             cell: row => row.status,
         },
@@ -56,7 +61,6 @@ export const UsersPage = () => {
                 <div className="flex gap-3">
                     <TrashIcon className="w-5 cursor-pointer" />
                     <PencilAltIcon className="w-5 cursor-pointer" />
-                    <EyeIcon className="w-5 cursor-pointer" />
                 </div>
             ),
         },
@@ -69,7 +73,7 @@ export const UsersPage = () => {
             setUsers(data.payload);
             setExportData(exportUsers(data.payload.items || []));
         } catch (error) {
-            toast.error('Error getting users');
+            if (error instanceof CustomError) toast.error(error.message);
         } finally {
             setIsLoading(false);
         }
@@ -77,7 +81,9 @@ export const UsersPage = () => {
 
     const updateQueryParams = () => {
         const searchParams = new URLSearchParams(location.search);
-        if (!searchParams.has('page') && !searchParams.has('limit')) return;
+        if (!searchParams.has('page')) searchParams.set('page', '1');
+        if (!searchParams.has('limit')) searchParams.set('limit', '10');
+        if (!searchParams.has('roles')) searchParams.set('roles', 'true');
         if (keyword) searchParams.set('search', keyword.toString());
         else searchParams.delete('search');
         const newSearch = searchParams.toString();

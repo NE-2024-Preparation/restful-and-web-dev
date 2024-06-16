@@ -8,5 +8,5 @@ export type UserType = BaseType & {
     firstName: string;
     lastName: string;
     status: string;
-    roles: RoleType[];
+    roles?: RoleType[];
 };

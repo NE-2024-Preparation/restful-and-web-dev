@@ -67,6 +67,7 @@ export class ProfilesController {
   }
 
   @ApiOperation({ description: 'Request reset password' })
+  @ApiOkCustomResponse(NullDto)
   @Post('/request/reset/password')
   @Public()
   requestResetPassword(
@@ -76,6 +77,7 @@ export class ProfilesController {
   }
 
   @ApiOperation({ description: 'Verify reset password' })
+  @ApiOkCustomResponse(VerifyResetPasswordResponseDto)
   @Post('/verify/reset/password')
   @Public()
   verifyResetPassword(
@@ -86,6 +88,7 @@ export class ProfilesController {
 
   @ApiOperation({ description: 'Change user password' })
   @Post('/reset/password')
+  @ApiOkCustomResponse(NullDto)
   @Public()
   resetPassword(
     @Body(ValidationPipe) resetPassword: ResetPasswordDTO,

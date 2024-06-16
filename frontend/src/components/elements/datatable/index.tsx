@@ -44,8 +44,6 @@ export const DataTable = <Entry extends {}>(props: DataTableProps<Entry>) => {
         const searchParams = new URLSearchParams(location.search);
         searchParams.set('page', params.page.toString());
         searchParams.set('limit', params.limit.toString());
-        let keyword = searchParams.get('search');
-        if (!keyword) searchParams.delete('search');
         const newSearch = searchParams.toString();
         navigate(`${location.pathname}?${newSearch}`);
     };
@@ -109,7 +107,7 @@ export const DataTable = <Entry extends {}>(props: DataTableProps<Entry>) => {
             <div className="w-full overflow-x-auto">
                 <table className="w-full divide-y divide-gray-300 overflow-hidden whitespace-nowrap">
                     <thead>
-                        <tr className="bg-gray-500">
+                        <tr className="bg-primary-500">
                             <th className="py-3 px-2 text-center text-xs font-medium text-white">
                                 #
                             </th>

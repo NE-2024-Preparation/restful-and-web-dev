@@ -25,6 +25,7 @@ export const AppProvider = (props: AppProviderProps) => {
                             <ToastContainer
                                 position="top-right"
                                 theme="colored"
+                                autoClose={1500}
                             />
                         </HelmetProvider>
                     </PersistGate>

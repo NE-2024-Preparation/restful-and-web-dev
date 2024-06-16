@@ -12,6 +12,7 @@ const UserDropdown: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
 
+    const { userData } = useSelector((state: RootState) => state.user);
     const { tokensData } = useSelector((state: RootState) => state.tokens);
 
     const handleMouseEnter = () => {
@@ -81,6 +82,13 @@ const UserDropdown: React.FC = () => {
                         onMouseLeave={handleMouseLeave}
                     >
                         <div className="py-1" role="none">
+                            <span
+                                className="block truncate px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-100"
+                                role="menuitem"
+                                tabIndex={-1}
+                            >
+                                {userData.email}
+                            </span>
                             <Link
                                 to="#"
                                 className="block px-4 py-2 text-xs text-gray-700 hover:bg-gray-100"

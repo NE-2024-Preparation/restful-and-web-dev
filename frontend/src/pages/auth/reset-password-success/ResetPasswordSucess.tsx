@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { IMAGES } from '~/assets/images';
@@ -6,10 +6,26 @@ import { Button } from '~/components/elements';
 
 const ResetPasswordSuccessPage: React.FC = () => {
     const navigate = useNavigate();
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         navigate('/auth/login');
     };
+
+    useEffect(() => {
+        const resetToken = sessionStorage.getItem('reset_token');
+        if (!resetToken) {
+            navigate('/auth/reset-password');
+        }
+    }, []);
+
+    useEffect(() => {
+        const resetSuccess = sessionStorage.getItem('reset_success');
+        const resetToken = sessionStorage.getItem('reset_token');
+        if (!resetSuccess) navigate('/auth/reset-password');
+        if (!resetToken) navigate('/auth/reset-password');
+    }, []);
+
     return (
         <>
             <Helmet>

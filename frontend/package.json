@@ -2,6 +2,13 @@
     "name": "portfolio",
     "version": "1.0.0",
     "private": true,
+    "scripts": {
+        "start": "craco start",
+        "start:dev": "craco start --watch",
+        "build": "craco build",
+        "test": "craco test",
+        "eject": "react-scripts eject"
+    },
     "dependencies": {
         "@apollo/client": "^3.6.9",
         "@craco/craco": "^6.4.3",
@@ -56,13 +63,6 @@
         "typescript": "^4.4.4",
         "web-vitals": "^2.1.0",
         "zod": "^3.17.3"
-    },
-    "scripts": {
-        "start": "craco start",
-        "dev": "craco start --watch",
-        "build": "craco build",
-        "test": "craco test",
-        "eject": "react-scripts eject"
     },
     "eslintConfig": {
         "extends": [

@@ -367,34 +367,38 @@ export class UsersService {
   async resetPassword(
     resetPasswordDTO: ResetPasswordDTO,
   ): Promise<ResponseDto<null>> {
-    const { newPassword, resetToken } = resetPasswordDTO;
+    try {
+      const { newPassword, resetToken } = resetPasswordDTO;
 
-    const userId = await this.resetPasswordService.findUserId(resetToken);
+      const userId = await this.resetPasswordService.findUserId(resetToken);
 
-    if (!userId) throw new BadRequestException();
+      if (!userId) throw new BadRequestException();
 
-    const user = await this.userRepository.findOneBy({ id: userId });
+      const user = await this.userRepository.findOneBy({ id: userId });
 
-    if (!user) throw new NotFoundCustomException('Not found');
+      if (!user) throw new NotFoundCustomException('Not found');
 
-    const doesPasswordExist = await user.validatePassword(newPassword);
+      const doesPasswordExist = await user.validatePassword(newPassword);
 
-    if (doesPasswordExist)
-      throw new BadRequestCustomException('Invalid password');
+      if (doesPasswordExist)
+        throw new BadRequestCustomException('Invalid password');
 
-    const hashed_password = await HashHelper.encrypt(newPassword);
+      const hashed_password = await HashHelper.encrypt(newPassword);
 
-    await this.userRepository.update(
-      { id: userId },
-      {
-        password: hashed_password,
-      },
-    );
+      await this.userRepository.update(
+        { id: userId },
+        {
+          password: hashed_password,
+        },
+      );
 
-    return this.responseService.makeResponse({
-      message: 'Password reset successfully',
-      payload: null,
-    });
+      return this.responseService.makeResponse({
+        message: 'Password reset successfully',
+        payload: null,
+      });
+    } catch (error) {
+      throw new InternalServerErrorCustomException(error.message);
+    }
   }
 
   /**

@@ -1,8 +1,9 @@
 /* eslint-disable quotes */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
+import { reset_password } from '~/api/auth';
 import { IMAGES } from '~/assets/images';
 import { Button, Form, InputField } from '~/components/elements';
 
@@ -32,14 +33,30 @@ const ResetPasswordConfirmedPage: React.FC = () => {
         try {
             setError('');
             setIsLoading(true);
+            const resetToken = sessionStorage.getItem('reset_token');
+            if (!resetToken) {
+                navigate('/auth/reset-password');
+                return;
+            }
+            await reset_password({
+                newPassword: payload.password,
+                resetToken,
+            });
+            sessionStorage.setItem('reset_success', 'true');
             navigate('/auth/reset-password-success');
-            console.log(payload);
         } catch (error: any) {
             setError(error.response.message);
         } finally {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        const resetToken = sessionStorage.getItem('reset_token');
+        if (!resetToken) {
+            navigate('/auth/reset-password');
+        }
+    }, []);
     return (
         <>
             <Helmet>

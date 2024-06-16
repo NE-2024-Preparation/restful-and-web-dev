@@ -2,13 +2,15 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import AppLayout from '~/components/layouts/app/AppLayout';
 import AuthPageLayout from '~/components/layouts/auth/AuthPageLayout';
 import { AuthRouteProtector } from '~/core/protector/auth/AuthProtector';
-import NotFoundPage from '~/pages/notfound/NotFoundPage';
-import { AdminRoutes } from './dashboard/AdminRoutes';
+import { NotFoundPage } from '~/pages/notfound/NotFoundPage';
 import { AuthRoutes } from './auth/AuthRoutes';
 import { DashboardProtector } from '~/core/protector/dashboard/DashboardProtector';
 import { DashboardPageLayout } from '~/components/layouts/dashboard/DashboardPageLayout';
+import { useDashboardRoutes } from './dashboard/useDashboardRoutes';
 
 export const Routes = () => {
+    const { dashboardRoutes } = useDashboardRoutes();
+
     return useRoutes([
         {
             path: '/',
@@ -30,7 +32,7 @@ export const Routes = () => {
                     element: (
                         <DashboardProtector element={<DashboardPageLayout />} />
                     ),
-                    children: AdminRoutes,
+                    children: dashboardRoutes,
                 },
             ],
         },

@@ -1,41 +1,19 @@
-import {
-    faHouse,
-    faUser,
-    IconDefinition,
-} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { IMAGES } from '~/assets/images';
 import { SVGS } from '~/assets/svgs';
+import { useSideBarLinks } from '~/core/hooks/useSidebarLinks';
 import { useDashboardContext } from '~/core/provider/dashboard/DashboardContextProvider';
 import { RootState } from '~/core/types/redux';
-
-export type ISideBarLinksType = {
-    name: string;
-    icon: IconDefinition;
-    href: string;
-};
-
-export const SideBarLinks: ISideBarLinksType[] = [
-    {
-        name: 'Dashboard',
-        icon: faHouse,
-        href: '/dashboard',
-    },
-    {
-        name: 'Users',
-        icon: faUser,
-        href: '/dashboard/users',
-    },
-];
 
 export const SideBar: React.FC = () => {
     const [currentLink, setCurrentLink] = useState<number>(0);
 
     const { isSidebarOpen, toggleSidebar } = useDashboardContext();
     const { userData } = useSelector((state: RootState) => state.user);
+    const { sidebarLinks } = useSideBarLinks();
 
     const SIDE_BAR_ADMIN_ELEMENT = useRef<any>(null);
 
@@ -51,7 +29,7 @@ export const SideBar: React.FC = () => {
     }, [isSidebarOpen, toggleSidebar]);
 
     useEffect(() => {
-        SideBarLinks.forEach(({ href }, index) => {
+        sidebarLinks.forEach(({ href }, index) => {
             if (window.location.href.includes(href.toLowerCase()))
                 setCurrentLink(index);
         });
@@ -108,7 +86,7 @@ export const SideBar: React.FC = () => {
 
                     <nav className="flex-1">
                         <ul className="flex flex-col gap-3">
-                            {SideBarLinks.map(({ href, icon, name }, index) => (
+                            {sidebarLinks.map(({ href, icon, name }, index) => (
                                 <li
                                     key={index}
                                     onClick={() => setCurrentLink(index)}

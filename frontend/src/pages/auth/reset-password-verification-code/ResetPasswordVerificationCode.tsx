@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
 import { Button } from '~/components/elements';
@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import ReactInputVerificationCode from 'react-input-verification-code';
 import { useNavigate } from 'react-router-dom';
 import { IMAGES } from '~/assets/images';
+import { CustomError } from '~/core/libs';
+import { verify_reset_password } from '~/api/auth';
 
 const StyledReactInputVerificationCode = styled.div`
     display: flex;
@@ -33,7 +35,6 @@ export type RegisterPayload = {
 };
 
 const ResetPasswordVerificationCode: React.FC = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [code, setCode] = useState<string>('');
@@ -47,15 +48,34 @@ const ResetPasswordVerificationCode: React.FC = () => {
                 setError('Please enter the code sent to your email!');
                 return;
             }
+            const email = sessionStorage.getItem('resetting_email');
+            if (!email) {
+                navigate('/auth/reset-password');
+                return;
+            }
             setIsLoading(true);
             setError('');
+            const data = await verify_reset_password({
+                email,
+                otp: Number(code),
+            });
+            sessionStorage.removeItem('resetting_email');
+            sessionStorage.setItem('reset_token', data.payload.resetToken);
             navigate('/auth/reset-password-confirmed');
         } catch (error: any) {
-            setError(error.response.message);
+            if (error instanceof CustomError) setError(error.message);
         } finally {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        const email = sessionStorage.getItem('resetting_email');
+        if (!email) {
+            navigate('/auth/reset-password');
+        }
+    }, [navigate]);
+
     return (
         <>
             <Helmet>

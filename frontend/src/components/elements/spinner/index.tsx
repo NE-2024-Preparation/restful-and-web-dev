@@ -1,5 +1,5 @@
 const sizes = {
-    sm: 'h-6 w-6',
+    sm: 'h-5 w-5',
     md: 'h-8 w-8',
     lg: 'h-16 w-16',
     xl: 'h-24 w-24',

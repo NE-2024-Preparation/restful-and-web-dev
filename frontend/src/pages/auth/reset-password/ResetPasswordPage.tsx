@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
+import { request_reset_password } from '~/api/auth';
 import { IMAGES } from '~/assets/images';
 import { Button, Form, InputField } from '~/components/elements';
+import { CustomError } from '~/core/libs';
+import { AuthRequestResetPasswordRequestPayload } from '~/core/types/auth';
 
 const schema = z.object({
     email: z.string().min(1, 'Please enter your email is required').email(),
@@ -20,14 +23,17 @@ const ResetPasswordPage: React.FC = () => {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const handleSubmit = async (payload: RegisterPayload) => {
+    const handleSubmit = async (
+        payload: AuthRequestResetPasswordRequestPayload
+    ) => {
         try {
             setError('');
             setIsLoading(true);
-            console.log(payload);
+            await request_reset_password(payload);
+            sessionStorage.setItem('resetting_email', payload.email);
             navigate('/auth/reset-password-verification');
         } catch (error: any) {
-            setError(error.response.message);
+            if (error instanceof CustomError) setError(error.message);
         } finally {
             setIsLoading(false);
         }
