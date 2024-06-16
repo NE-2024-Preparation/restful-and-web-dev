@@ -8,7 +8,7 @@ import { AuthImages } from '~/assets/images/background/auth';
 import { Button, Form, InputField } from '~/components/elements';
 import { adduserRedux } from '~/core/redux/slices/userSlice';
 import { AuthRegisterRequestPayload } from '~/core/types/auth';
-import { storage } from '~/core/utils';
+import { addTokensRedux } from '~/core/redux/slices/tokensSlice';
 
 const schema = z.object({
     firstName: z.string().min(1, 'First Name is required'),
@@ -29,11 +29,10 @@ const RegisterPage: React.FC = () => {
         try {
             setError('');
             setIsLoading(true);
-            console.log(payload);
             const data = await register_user(payload);
             const { tokens, user } = data.payload;
-            storage.setTokens(tokens);
             dispatch(adduserRedux(user));
+            dispatch(addTokensRedux(tokens));
             window.location.reload();
         } catch (error: any) {
             setError(error.response.message);

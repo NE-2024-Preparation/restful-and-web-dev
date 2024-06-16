@@ -1,32 +1,34 @@
-import { faHouse, faUser, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import {
+    faHouse,
+    faUser,
+    IconDefinition,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AdminContext, AdminContextType } from '~/core/provider/admin/AdminProvider';
+import { useDashboardContext } from '~/core/provider/dashboard/DashboardContextProvider';
 
-export type LinksType ={
+export type LinksType = {
     title: string;
     href: string;
     icon: IconDefinition;
+};
 
-}
-
-const  AdminSideBarNavigationComponent:React.FC = () => {
+const AdminSideBarNavigationComponent: React.FC = () => {
     const [tab, setTab] = useState(0);
 
-    const { toggleSidebar } =
-    useContext<AdminContextType>(AdminContext);
+    const { toggleSidebar } = useDashboardContext();
 
-    const links: LinksType[]= [
+    const links: LinksType[] = [
         {
             title: 'Dashboard',
             href: '/',
-            icon: faHouse
+            icon: faHouse,
         },
         {
             title: 'Users',
             href: '/users',
-            icon: faUser
+            icon: faUser,
         },
     ];
 
@@ -51,18 +53,24 @@ const  AdminSideBarNavigationComponent:React.FC = () => {
                             >
                                 {tab === index ? (
                                     <Link
-                                        to={`/admin${href}`}
-                                        className="flex gap-2 items-center rounded-md bg-blue-400 p-2"
+                                        to={`/dashboard${href}`}
+                                        className="flex items-center gap-2 rounded-md bg-blue-400 p-2"
                                     >
-                                        <FontAwesomeIcon icon={icon} className="text-md" />
+                                        <FontAwesomeIcon
+                                            icon={icon}
+                                            className="text-md"
+                                        />
                                         {title}
                                     </Link>
                                 ) : (
                                     <Link
-                                        to={`/admin${href}`}
-                                        className="flex gap-2 items-center p-2"
+                                        to={`/dashboard${href}`}
+                                        className="flex items-center gap-2 p-2"
                                     >
-                                        <FontAwesomeIcon icon={icon} className="text-md" />
+                                        <FontAwesomeIcon
+                                            icon={icon}
+                                            className="text-md"
+                                        />
                                         {title}
                                     </Link>
                                 )}

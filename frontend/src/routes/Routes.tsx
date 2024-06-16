@@ -1,15 +1,13 @@
 import { useRoutes } from 'react-router-dom';
-import AdminPageLayout from '~/components/layouts/admin/AdminPageLayout';
 import AppLayout from '~/components/layouts/app/AppLayout';
 import AuthPageLayout from '~/components/layouts/auth/AuthPageLayout';
-import MemberPageLayout from '~/components/layouts/member/MemberPageLayout';
-import { AdminRouteProtector } from '~/core/protector/admin/AdminProtector';
 import { AuthRouteProtector } from '~/core/protector/auth/AuthProtector';
-import { MemberRouteProtector } from '~/core/protector/member/MemberProtector';
 import NotFoundPage from '~/pages/notfound/NotFoundPage';
-import { AdminRoutes } from './admin/AdminRoutes';
+import { AdminRoutes } from './dashboard/AdminRoutes';
 import { AuthRoutes } from './auth/AuthRoutes';
-import { MemberRoutes } from './member/MemberRoutes';
+import HomePage from '~/pages/home/HomePage';
+import DashboardPageLayout from '~/components/layouts/dashboard/DashboardPageLayout';
+import { DashboardProtector } from '~/core/protector/dashboard/DashboardProtector';
 
 export const Routes = () => {
     return useRoutes([
@@ -18,19 +16,21 @@ export const Routes = () => {
             element: <AppLayout />,
             children: [
                 {
-                    path:'/',
-                    element: <MemberRouteProtector element={<MemberPageLayout />} />,
-                    children: MemberRoutes
-
+                    index: true,
+                    element: <HomePage />,
                 },
                 {
                     path: 'auth',
-                    element: <AuthRouteProtector element={<AuthPageLayout />} />,
+                    element: (
+                        <AuthRouteProtector element={<AuthPageLayout />} />
+                    ),
                     children: AuthRoutes,
                 },
                 {
-                    path: 'admin',
-                    element: <AdminRouteProtector element={<AdminPageLayout />} />,
+                    path: 'dashboard',
+                    element: (
+                        <DashboardProtector element={<DashboardPageLayout />} />
+                    ),
                     children: AdminRoutes,
                 },
             ],

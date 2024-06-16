@@ -3,12 +3,12 @@ const path = require('path');
 module.exports = {
     webpack: {
         alias: {
-            '~': path.resolve(__dirname, 'src')
-        }
+            '~': path.resolve(__dirname, 'src'),
+        },
     },
     style: {
         postOptions: {
-            plugins: [require('autoprefixer')]
-        }
-    }
+            plugins: [require('autoprefixer')],
+        },
+    },
 };

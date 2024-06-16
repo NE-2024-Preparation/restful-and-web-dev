@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { createContext, ReactNode, useState } from 'react';
+import React, { createContext, ReactNode, useContext, useState } from 'react';
 
 export const ExportContext = createContext<any>(null);
 
@@ -22,4 +22,14 @@ export const ExportContextProvider: React.FC<{ children: ReactNode }> = ({
             {children}
         </ExportContext.Provider>
     );
+};
+
+export const useExportContext = () => {
+    const context = useContext(ExportContext);
+    if (context === undefined) {
+        throw new Error(
+            'useExportContext must be used within a ExportContextProvider'
+        );
+    }
+    return context;
 };

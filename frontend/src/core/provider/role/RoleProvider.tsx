@@ -10,7 +10,7 @@ const RoleProvider: React.FC = () => {
     //     return <Navigate to={'/'} />;
 
     // if (userData.role === EROLE.ADMIN)
-    //     return <Navigate to={'/admin'} />;
+    //     return <Navigate to={'/dashboard'} />;
 
     return <Navigate to={'/auth'} />;
 };

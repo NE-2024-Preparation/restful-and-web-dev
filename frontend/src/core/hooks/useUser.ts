@@ -1,30 +1,28 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { storage } from '~/core/utils';
 import { adduserRedux } from '../redux/slices/userSlice';
 import { useLogout } from './useLogout';
 import { get_profile } from '~/api/auth';
 import { RootState } from '../types/redux';
 
-export const CheckUser = () => {
-    const tokens = storage.getTokens();
+export const CheckAuth = () => {
     const dispatch = useDispatch();
     const { logout } = useLogout();
     const { userData } = useSelector((state: RootState) => state.user);
+    const { tokensData } = useSelector((state: RootState) => state.tokens);
 
     const fetchUser = async () => {
-        if (tokens) {
+        if (tokensData.accessToken) {
             try {
                 const data = await get_profile();
                 const { user } = data.payload;
                 dispatch(adduserRedux(user));
-                // storage.setToken(access_token);
             } catch (error) {
                 logout();
             }
         }
 
-        if (!tokens && userData.id) {
+        if (!tokensData.accessToken && userData.id) {
             logout();
         }
     };

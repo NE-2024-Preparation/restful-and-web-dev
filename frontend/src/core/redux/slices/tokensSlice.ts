@@ -4,14 +4,20 @@ import { TokensType } from '~/core/types/tokens';
 const tokensSlice = createSlice({
     name: 'tokensData',
     initialState: {
-        tokensData: {},
+        tokensData: {
+            accessToken: '',
+            refreshToken: '',
+        },
     },
     reducers: {
         addTokensRedux: (state, { payload }: { payload: TokensType }) => {
             state.tokensData = { ...payload };
         },
         removeTokensRedux: state => {
-            state.tokensData = {};
+            state.tokensData = {
+                accessToken: '',
+                refreshToken: '',
+            };
         },
         updateTokensRedux: (state, { payload }: { payload: TokensType }) => {
             state.tokensData = { ...payload };

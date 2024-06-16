@@ -1,8 +1,8 @@
 export type PaginationType<T> = {
+    items: T[];
     currentPage: number;
-    lastPage: number;
-    list: T[];
-    nextPage: number;
-    previousPage: number;
-    total: number;
+    itemCount: number;
+    itemsPerPage: number;
+    totalPages: number;
+    totalItems: number;
 };

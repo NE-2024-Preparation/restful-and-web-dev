@@ -1,20 +1,16 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { DataTable, TableColumn } from '~/components/elements';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EyeIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserType } from '~/core/types';
 import { PaginationType } from '~/core/types/pagination';
-import {
-    ExportContext,
-    ExportContextType,
-} from '~/core/provider/export/ExportContextProvider';
+import { useExportContext } from '~/core/provider/export/ExportContextProvider';
 import { exportUsers } from '~/core/helper';
-import { get_all_users } from '~/api/user';
+import { get_users } from '~/api/user';
 
-export const AdminUsersPage = () => {
+export const UsersPage = () => {
     const location = useLocation();
 
     const query = location.search;
@@ -27,7 +23,7 @@ export const AdminUsersPage = () => {
 
     const [keyword, setKeyword] = useState('');
 
-    const { setExportData } = useContext<ExportContextType>(ExportContext);
+    const { setExportData } = useExportContext();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setKeyword(e.target.value);
@@ -43,11 +39,10 @@ export const AdminUsersPage = () => {
     const handleGetUsers = async () => {
         try {
             setIsLoading(true);
-            const data: PaginationType<UserType> = await get_all_users(query);
-            setUsers(data);
-            setExportData(exportUsers(data?.list ?? []));
+            const data = await get_users(query);
+            setUsers(data.payload);
+            setExportData(exportUsers(data.payload.items ?? []));
         } catch (error) {
-            console.log(error);
             toast.error('Error getting users');
         } finally {
             setIsLoading(false);
@@ -104,13 +99,13 @@ export const AdminUsersPage = () => {
             </div>
             <DataTable
                 columns={columns}
-                data={users?.list ?? []}
+                data={users?.items ?? []}
                 isLoading={isLoading}
-                total={users?.total ?? 0}
-                nextPage={users?.nextPage ?? 0}
-                lastPage={users?.lastPage ?? 0}
+                total={users?.totalItems ?? 0}
+                lastPage={1}
                 currentPage={users?.currentPage ?? 0}
-                previousPage={users?.previousPage ?? 0}
+                nextPage={0}
+                previousPage={0}
             />
         </div>
     );

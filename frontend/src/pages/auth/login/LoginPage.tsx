@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { z } from 'zod';
 import { login_user } from '~/api/auth';
 import { AuthImages } from '~/assets/images/background/auth';
 import { Button, Form, InputField } from '~/components/elements';
 import { adduserRedux } from '~/core/redux/slices/userSlice';
-import { storage } from '~/core/utils';
 import { AuthLoginRequestPayload } from '~/core/types/auth';
+import { addTokensRedux } from '~/core/redux/slices/tokensSlice';
 
 const schema = z.object({
     username: z.string().min(1, 'Email or Username is required'),
@@ -17,6 +17,7 @@ const schema = z.object({
 
 const LoginPage: React.FC = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [error, setError] = useState<string>('');
 
@@ -28,9 +29,9 @@ const LoginPage: React.FC = () => {
             setIsLoading(true);
             const data = await login_user(payload);
             const { tokens, user } = data.payload;
-            storage.setTokens(tokens);
             dispatch(adduserRedux(user));
-            window.location.reload();
+            dispatch(addTokensRedux(tokens));
+            navigate('/dashboard');
         } catch (error: any) {
             setError(error.response.message);
         } finally {

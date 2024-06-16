@@ -1,13 +1,13 @@
 import { useDispatch } from 'react-redux';
-import { storage } from '~/core/utils';
 import { removeUserRedux } from '../redux/slices/userSlice';
+import { removeTokensRedux } from '../redux/slices/tokensSlice';
 
 export const useLogout = () => {
     const dispatch = useDispatch();
 
     const logout = () => {
-        storage.removeTokens();
         dispatch(removeUserRedux());
+        dispatch(removeTokensRedux());
         window.location.reload();
     };
 

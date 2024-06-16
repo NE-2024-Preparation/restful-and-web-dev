@@ -1,5 +1,4 @@
 import { ResponseType } from '~/core/types/response';
-import { PRIVATE_API } from '../axios';
 import { AxiosErrorHandler, CustomError } from '~/core/libs';
 import {
     AuthLoginRequestPayload,
@@ -8,6 +7,7 @@ import {
     AuthRegisterResponsePayload,
 } from '~/core/types/auth';
 import { ProfileType } from '~/core/types/profile';
+import PRIVATE_API from '../axios';
 
 export const register_user = async (
     payload: AuthRegisterRequestPayload
@@ -24,7 +24,6 @@ export const login_user = async (
     payload: AuthLoginRequestPayload
 ): Promise<ResponseType<AuthLoginResponsePayload>> => {
     try {
-        console.log(payload);
         const request = await PRIVATE_API.post('/auth/login', payload);
         return await request.data;
     } catch (error: any) {
