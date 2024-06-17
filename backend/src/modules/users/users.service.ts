@@ -372,7 +372,7 @@ export class UsersService {
 
       const userId = await this.resetPasswordService.findUserId(resetToken);
 
-      if (!userId) throw new BadRequestException();
+      if (!userId) throw new BadRequestException('Session expired');
 
       const user = await this.userRepository.findOneBy({ id: userId });
 
@@ -381,7 +381,9 @@ export class UsersService {
       const doesPasswordExist = await user.validatePassword(newPassword);
 
       if (doesPasswordExist)
-        throw new BadRequestCustomException('Invalid password');
+        throw new BadRequestCustomException(
+          'Password cannot be the same as the old one',
+        );
 
       const hashed_password = await HashHelper.encrypt(newPassword);
 
