@@ -1,4 +1,4 @@
-import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
@@ -67,7 +67,7 @@ export const InputField = (props: InputFieldProps) => {
                                 onClick={() => setPasswordVisible(false)}
                             />
                         ) : (
-                            <EyeOffIcon
+                            <EyeSlashIcon
                                 className="icon-md cursor-pointer text-gray-600"
                                 onClick={() => setPasswordVisible(true)}
                             />

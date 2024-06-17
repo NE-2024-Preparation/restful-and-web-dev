@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { DataTable, TableColumn } from '~/components/elements';
 import { useEffect, useState } from 'react';
-import { EyeIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/outline';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserType } from '~/core/types';
@@ -10,6 +9,9 @@ import { useExportContext } from '~/core/provider/export/ExportContextProvider';
 import { exportUsers } from '~/core/helper';
 import { get_users } from '~/api/user';
 import { CustomError } from '~/core/libs';
+import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
+import DeleteUserModal from './modal/DeleteUserModal';
+import EditUserModal from './modal/EditUserModal';
 
 export const UsersPage = () => {
     const location = useLocation();
@@ -25,11 +27,23 @@ export const UsersPage = () => {
     );
 
     const [keyword, setKeyword] = useState('');
+    const [debounceTimeout, setDebounceTimeout] = useState<number | null>(null);
 
     const { setExportData } = useExportContext();
 
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setKeyword(e.target.value);
+        const newKeyword = e.target.value;
+        if (debounceTimeout) {
+            clearTimeout(debounceTimeout);
+        }
+        const timeoutId = window.setTimeout(() => {
+            setKeyword(newKeyword);
+        }, 300);
+        setDebounceTimeout(timeoutId);
     };
 
     const columns: TableColumn<UserType>[] = [
@@ -61,8 +75,20 @@ export const UsersPage = () => {
             title: 'Actions',
             cell: row => (
                 <div className="flex gap-3">
-                    <TrashIcon className="w-5 cursor-pointer" />
-                    <PencilAltIcon className="w-5 cursor-pointer" />
+                    <TrashIcon
+                        className="w-5 cursor-pointer"
+                        onClick={() => {
+                            setSelectedUser(row);
+                            setIsDeleteModalOpen(true);
+                        }}
+                    />
+                    <PencilIcon
+                        className="w-5 cursor-pointer"
+                        onClick={() => {
+                            setSelectedUser(row);
+                            setIsEditModalOpen(true);
+                        }}
+                    />
                 </div>
             ),
         },
@@ -123,6 +149,16 @@ export const UsersPage = () => {
                 currentPage={users.currentPage}
                 totalItems={users.totalItems}
                 totalPages={users.totalPages}
+            />
+            <DeleteUserModal
+                open={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                selectedUser={selectedUser}
+            />
+            <EditUserModal
+                open={isEditModalOpen}
+                onClose={() => setIsEditModalOpen(false)}
+                selectedUser={selectedUser}
             />
         </div>
     );

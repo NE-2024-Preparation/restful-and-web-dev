@@ -1,41 +1,43 @@
-/* eslint-disable no-unused-vars */
-import { faClose } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ReactNode, useEffect } from 'react';
+import { FC } from 'react';
+import { Dialog, Transition, TransitionChild } from '@headlessui/react';
 
-interface DialogProps {
-    children: ReactNode;
-    isOpen: boolean;
-    onClose: (...args: any) => void;
-}
+type ModalProps = {
+    open: boolean;
+    onClose: () => void;
+    children: React.ReactNode;
+};
 
-export const Modal = (props: DialogProps) => {
-    const { children, isOpen, onClose } = props;
-
-    useEffect(() => {
-        const handleKeyDown = (event: KeyboardEvent): void => {
-            if (event.keyCode === 27) {
-                onClose();
-            }
-        };
-        document.addEventListener('keydown', handleKeyDown);
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    }, []);
+export const Modal: FC<ModalProps> = props => {
+    const { open, onClose, children } = props;
 
     return (
-        <div
-            className={`fixed left-0 top-0 z-50 flex h-screen w-screen bg-slate-400 bg-opacity-90 ${
-                isOpen ? 'translate-x-0' : '-translate-x-full'
-            } duration-200 ease-in-out`}
-        >
-            <FontAwesomeIcon
-                className="absolute top-5 right-10 z-50 cursor-pointer border border-gray-500 p-3 text-xl text-gray-500"
-                icon={faClose}
-                onClick={onClose}
-            />
-            {children}
-        </div>
+        <Transition show={open}>
+            <Dialog className="relative z-10" onClose={onClose}>
+                <TransitionChild
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                >
+                    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                </TransitionChild>
+                <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                        <TransitionChild
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            enterTo="opacity-100 translate-y-0 sm:scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        >
+                            {children}
+                        </TransitionChild>
+                    </div>
+                </div>
+            </Dialog>
+        </Transition>
     );
 };
