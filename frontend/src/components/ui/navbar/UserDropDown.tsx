@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { logout_user } from '~/api/auth';
 import { IMAGES } from '~/assets/images';
 import { removeTokensRedux } from '~/core/redux/slices/tokensSlice';
@@ -11,6 +11,7 @@ const UserDropdown: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const { userData } = useSelector((state: RootState) => state.user);
     const { tokensData } = useSelector((state: RootState) => state.tokens);
@@ -32,6 +33,7 @@ const UserDropdown: React.FC = () => {
             dispatch(removeTokensRedux());
             dispatch(removeUserRedux());
             setIsLoading(false);
+            navigate('/login');
         }
     };
 

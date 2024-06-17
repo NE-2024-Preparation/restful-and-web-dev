@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export const NotFoundPage: React.FC = () => {
     return (
-        <section className="relative z-10 h-screen bg-primary-500 py-[120px]">
+        <section className="relative z-10 h-screen bg-gray-800 py-[120px]">
             <div className="container mx-auto">
                 <div className="-mx-4 flex">
                     <div className="w-full px-4">
@@ -18,7 +18,7 @@ export const NotFoundPage: React.FC = () => {
                                 The page you are looking for is not available!
                             </p>
                             <Link
-                                className="hover:text-primary inline-block rounded-lg border border-white px-8 py-3 text-center text-base font-semibold text-white transition hover:bg-white"
+                                className="hover:text-primary inline-block rounded-lg border border-white px-8 py-3 text-center text-base font-semibold text-white transition hover:bg-white hover:text-gray-800"
                                 to={'/'}
                             >
                                 Go To Home
